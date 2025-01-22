@@ -1,0 +1,37 @@
+function labelSlidesWithLayoutInfo() {
+  // Open the presentation
+  const presentationId = "YOUR_PRESENTATION_ID"; // Replace with your presentation ID
+  const presentation = SlidesApp.openById(presentationId);
+
+  // Get all slides in the presentation
+  const slides = presentation.getSlides();
+
+  // Define approximate standard dimensions for a Google Slide (in points)
+  const slideWidth = 960;  // Width of the slide
+  const slideHeight = 540; // Height of the slide
+
+  // Loop through each slide
+  slides.forEach(slide => {
+    // Get the layout name and ID
+    const layout = slide.getLayout();
+    const layoutName = layout.getLayoutName();
+    const layoutId = layout.getObjectId();
+
+    // Create a text box in the bottom-right corner of the slide
+    const textBox = slide.insertTextBox(`Layout: ${layoutName}\nID: ${layoutId}`);
+
+    // Set the position of the text box
+    textBox.setTop(slideHeight - 60); // Position 60 points from the bottom
+    textBox.setLeft(slideWidth - 250); // Position 250 points from the right
+    textBox.setWidth(240); // Width of the text box
+    textBox.setHeight(50); // Height of the text box
+
+    // Style the text
+    const textRange = textBox.getText();
+    textRange.setFontSize(10); // Set font size
+    textRange.setFontFamily("Arial"); // Set font family
+    textRange.setForegroundColor("#000000"); // Set text color to black
+  });
+
+  Logger.log("Slides labeled with layout information!");
+}
