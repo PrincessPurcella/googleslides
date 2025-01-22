@@ -1,54 +1,39 @@
 function labelSlidesWithLayoutInfo() {
-  // Open the presentation
-  const presentationId = "YOUR_PRESENTATION_ID"; // Replace with your presentation ID
-  const presentation = SlidesApp.openById(presentationId);
-
-  // Get all slides in the presentation
-  const slides = presentation.getSlides();
-
-  // Define approximate standard dimensions for a Google Slide (in points)
-  const slideWidth = 960;  // Width of the slide
-  const slideHeight = 540; // Height of the slide
-
-  // Loop through each slide
-  slides.forEach(slide => {
-    // Get the layout name and ID
-    const layout = slide.getLayout();
-    const layoutName = layout.getLayoutName();
-    const layoutId = layout.getObjectId();
-
-    // Create a text box in the bottom-right corner of the slide
-    const textBox = slide.insertTextBox(`Layout: ${layoutName}\nID: ${layoutId}`);
-
-    // Set the position of the text box
-    textBox.setTop(slideHeight - 60); // Position 60 points from the bottom
-    textBox.setLeft(slideWidth - 250); // Position 250 points from the right
-    textBox.setWidth(240); // Width of the text box
-    textBox.setHeight(50); // Height of the text box
-
-    // Style the text
-    const textRange = textBox.getText();
-    textRange.setFontSize(10); // Set font size
-    textRange.setFontFamily("Arial"); // Set font family
-    textRange.setForegroundColor("#000000"); // Set text color to black
-  });
-
-  Logger.log("Slides labeled with layout information!");
-}
-
-function labelSlidesWithLayoutInfo() {
+  // Get the active presentation
   var presentation = SlidesApp.getActivePresentation();
+  
+  // Get all slides in the presentation
   var slides = presentation.getSlides();
   
+  // Loop through each slide
   slides.forEach(function(slide) {
-    // Get layout name and layout ID for the slide
+    // Get layout for the current slide
     var layout = slide.getLayout();
+    
+    // Retrieve the layout name and layout ID
     var layoutName = layout.getLayoutName();
     var layoutID = layout.getLayoutId();
     
-    // Insert text box with layout info
-    var textBox = slide.insertTextBox('Layout Name: ' + layoutName + '\nLayout ID: ' + layoutID);
-    textBox.setLeft(10).setTop(10); // Position the text box if needed
+    // Ensure that layoutName and layoutID are properly populated
+    if (layoutName && layoutID) {
+      // Insert the layout information into a text box
+      var textContent = 'Layout Name: ' + layoutName + '\nLayout ID: ' + layoutID;
+      var textBox = slide.insertTextBox(textContent);
+      
+      // Set the position and size of the text box (optional)
+      textBox.setLeft(10).setTop(10);
+      textBox.setWidth(300).setHeight(100);
+      
+      // Log layout info for debugging (optional)
+      Logger.log('Inserted on slide: ' + slide.getObjectId());
+      Logger.log('Layout Name: ' + layoutName);
+      Logger.log('Layout ID: ' + layoutID);
+    } else {
+      // Log an error if layout information is missing
+      Logger.log('Error: Missing layout info for slide ID: ' + slide.getObjectId());
+    }
   });
+  
+  // Output log for debugging purposes
+  Logger.flush();
 }
-
