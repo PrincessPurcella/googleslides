@@ -35,3 +35,20 @@ function labelSlidesWithLayoutInfo() {
 
   Logger.log("Slides labeled with layout information!");
 }
+
+function labelSlidesWithLayoutInfo() {
+  var presentation = SlidesApp.getActivePresentation();
+  var slides = presentation.getSlides();
+  
+  slides.forEach(function(slide) {
+    // Get layout name and layout ID for the slide
+    var layout = slide.getLayout();
+    var layoutName = layout.getLayoutName();
+    var layoutID = layout.getLayoutId();
+    
+    // Insert text box with layout info
+    var textBox = slide.insertTextBox('Layout Name: ' + layoutName + '\nLayout ID: ' + layoutID);
+    textBox.setLeft(10).setTop(10); // Position the text box if needed
+  });
+}
+
